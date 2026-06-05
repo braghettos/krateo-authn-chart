@@ -1,0 +1,172 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "type": "object",
+  "title": "Authn",
+  "description": "Krateo PlatformOps AuthN service. Full-coverage schema for the authn chart (pinned to installer 2.7.0 / chart 0.22.2). Every key of the chart's values.yaml is settable on the Composition spec; omitted keys use chart defaults.",
+  "additionalProperties": false,
+  "properties": {
+    "replicaCount": {
+      "type": "integer",
+      "title": "Replica count",
+      "minimum": 0,
+      "default": 1
+    },
+    "image": {
+      "type": "object",
+      "title": "Image",
+      "additionalProperties": false,
+      "properties": {
+        "repository": {
+          "type": "string",
+          "title": "Repository",
+          "default": "ghcr.io/krateoplatformops/authn"
+        },
+        "pullPolicy": {
+          "type": "string",
+          "title": "Pull policy",
+          "enum": ["IfNotPresent", "Always", "Never"],
+          "default": "IfNotPresent"
+        },
+        "tag": {
+          "type": "string",
+          "title": "Tag",
+          "description": "Overrides the image tag whose default is the chart appVersion.",
+          "default": ""
+        }
+      }
+    },
+    "imagePullSecrets": {
+      "type": "array",
+      "title": "Image pull secrets",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": { "name": { "type": "string" } },
+        "required": ["name"]
+      },
+      "default": []
+    },
+    "nameOverride": { "type": "string", "default": "" },
+    "fullnameOverride": { "type": "string", "default": "" },
+    "serviceAccount": {
+      "type": "object",
+      "title": "Service account",
+      "additionalProperties": false,
+      "properties": {
+        "create": { "type": "boolean", "default": true },
+        "automount": { "type": "boolean", "default": true },
+        "annotations": { "type": "object", "additionalProperties": { "type": "string" }, "default": {} },
+        "name": { "type": "string", "default": "" }
+      }
+    },
+    "podAnnotations": { "type": "object", "additionalProperties": { "type": "string" }, "default": {} },
+    "podLabels": { "type": "object", "additionalProperties": { "type": "string" }, "default": {} },
+    "podSecurityContext": { "type": "object", "default": {} },
+    "securityContext": { "type": "object", "default": {} },
+    "service": {
+      "type": "object",
+      "title": "Service",
+      "additionalProperties": false,
+      "properties": {
+        "annotations": { "type": "object", "additionalProperties": { "type": "string" }, "default": {} },
+        "type": {
+          "type": "string",
+          "title": "Service type",
+          "enum": ["ClusterIP", "NodePort", "LoadBalancer"],
+          "default": "ClusterIP"
+        },
+        "port": { "type": "integer", "minimum": 1, "maximum": 65535, "default": 8082 }
+      }
+    },
+    "ingress": {
+      "type": "object",
+      "title": "Ingress",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": { "type": "boolean", "default": false },
+        "className": { "type": "string", "default": "" },
+        "annotations": { "type": "object", "additionalProperties": { "type": "string" }, "default": {} },
+        "hosts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "host": { "type": "string" },
+              "paths": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "path": { "type": "string", "default": "/" },
+                    "pathType": { "type": "string", "default": "ImplementationSpecific" }
+                  }
+                }
+              }
+            }
+          },
+          "default": []
+        },
+        "tls": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "secretName": { "type": "string" },
+              "hosts": { "type": "array", "items": { "type": "string" } }
+            }
+          },
+          "default": []
+        }
+      }
+    },
+    "resources": { "type": "object", "title": "Resources", "default": {} },
+    "livenessProbe": { "type": "object", "title": "Liveness probe", "default": { "httpGet": { "path": "/health", "port": "http" } } },
+    "readinessProbe": { "type": "object", "title": "Readiness probe", "default": { "httpGet": { "path": "/health", "port": "http" } } },
+    "autoscaling": {
+      "type": "object",
+      "title": "Autoscaling",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": { "type": "boolean", "default": false },
+        "minReplicas": { "type": "integer", "minimum": 1, "default": 1 },
+        "maxReplicas": { "type": "integer", "minimum": 1, "default": 100 },
+        "targetCPUUtilizationPercentage": { "type": "integer", "minimum": 1, "maximum": 100, "default": 80 },
+        "targetMemoryUtilizationPercentage": { "type": "integer", "minimum": 1, "maximum": 100 }
+      }
+    },
+    "volumes": { "type": "array", "title": "Volumes", "items": { "type": "object" }, "default": [] },
+    "volumeMounts": { "type": "array", "title": "Volume mounts", "items": { "type": "object" }, "default": [] },
+    "nodeSelector": { "type": "object", "additionalProperties": { "type": "string" }, "default": {} },
+    "tolerations": { "type": "array", "items": { "type": "object" }, "default": [] },
+    "affinity": { "type": "object", "default": {} },
+    "env": {
+      "type": "object",
+      "title": "Environment",
+      "description": "AuthN service environment variables.",
+      "properties": {
+        "AUTHN_DEBUG": { "type": "string", "default": "true" },
+        "AUTHN_KUBECONFIG_CLUSTER_NAME": { "type": "string", "default": "krateo" },
+        "AUTHN_KUBECONFIG_CRT_EXPIRES_IN": { "type": "string", "default": "24h" },
+        "AUTHN_KUBECONFIG_SERVER_URL": { "type": "string", "default": "https://kube-apiserver:6443" },
+        "AUTHN_CORS": { "type": "string", "default": "true" },
+        "AUTHN_DUMP_ENV": { "type": "string", "default": "true" }
+      },
+      "additionalProperties": { "type": "string" }
+    },
+    "jwtSignKeySecretName": {
+      "type": "string",
+      "title": "JWT sign key secret name",
+      "description": "Name of the Secret holding the JWT signing key (created by the installer umbrella before authn).",
+      "default": "jwt-sign-key"
+    },
+    "authn-crd": {
+      "type": "object",
+      "title": "CRD subchart values",
+      "description": "Values passed to the authn-crd dependency subchart (CRDs). Normally empty.",
+      "default": {}
+    }
+  }
+}
