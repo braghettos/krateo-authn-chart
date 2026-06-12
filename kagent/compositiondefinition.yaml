@@ -1,0 +1,13 @@
+# Registers the krateo-authn-agent with Krateo: core-provider generates a KrateoAuthnAgent CRD +
+# controller from the published OCI chart's values.schema.json. The installer umbrella emits this
+# (the agent is an installer component gated on features.observabilityAgents); apply standalone
+# only for the agent-only demo.
+apiVersion: core.krateo.io/v1alpha1
+kind: CompositionDefinition
+metadata:
+  name: krateo-authn-agent
+  namespace: krateo-system
+spec:
+  chart:
+    url: oci://ghcr.io/braghettos/krateo/krateo-authn-agent
+    version: "0.1.0"

@@ -1,0 +1,27 @@
+namespace: krateo-system
+
+# ModelConfig the agent uses — referenced by name (shipped by the autopilot it federates with).
+modelConfig: gemini-flash
+
+prompts:
+  language: eng
+
+# GeminiVertexAI via ADC (matches the autopilot). Wired by the installer from .Values.vertexAI.
+vertexAI:
+  enabled: true
+  projectID: ""
+  location: us-central1
+
+# github MCP server the agent uses to read its component's chart + upstream codebase (the
+# "knows its codebase + chart" requirement). Points at an existing RemoteMCPServer by name.
+github:
+  enabled: true
+  mcpServer: github-mcp-server
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 1000m
+    memory: 1Gi

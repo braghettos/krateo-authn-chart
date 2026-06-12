@@ -1,0 +1,68 @@
+apiVersion: kagent.dev/v1alpha2
+kind: Agent
+metadata:
+  name: krateo-authn-agent
+  namespace: {{ .Values.namespace }}
+  labels:
+    app.kubernetes.io/name: krateo-authn-agent
+    app.kubernetes.io/part-of: krateo-authn
+spec:
+  type: Declarative
+  description: >-
+    Manages Krateo authentication (LDAP, OIDC, OAuth 2.0, basic auth) and is the dedicated expert on
+    the authn component — it knows the authn codebase (braghettos/authn) and the chart that packages
+    it (braghettos/krateo-authn-chart), declared in this chart's sources.
+  declarative:
+    deployment:
+      env:
+{{- include "krateo-authn-agent.genaiEnv" . | nindent 8 }}
+    modelConfig: {{ .Values.modelConfig }}
+    stream: true
+    promptTemplate:
+      dataSources:
+        - kind: ConfigMap
+          name: krateo-authn-agent-prompts-{{ .Values.prompts.language }}
+          alias: prompts
+    systemMessage: |
+      {{`{{include "prompts/authn_agent"}}`}}
+    tools:
+      - type: McpServer
+        mcpServer:
+          name: kagent-tool-server
+          kind: RemoteMCPServer
+          apiGroup: kagent.dev
+          toolNames:
+            - k8s_get_resources
+            - k8s_describe_resource
+            - k8s_get_resource_yaml
+            - k8s_apply_manifest
+            - k8s_patch_resource
+{{- if .Values.github.enabled }}
+      # Reads the agent's component sources (braghettos/authn codebase + krateo-authn-chart)
+      # so it can ground answers in the actual code and chart, per the /kagent standard.
+      - type: McpServer
+        mcpServer:
+          name: {{ .Values.github.mcpServer }}
+          kind: RemoteMCPServer
+          apiGroup: kagent.dev
+          toolNames:
+            - get_file_contents
+            - search_code
+            - search_repositories
+            - list_commits
+{{- end }}
+    a2aConfig:
+      skills:
+        - id: manage-authn
+          name: Manage Krateo AuthN
+          description: >-
+            Create and troubleshoot Krateo authentication — basic auth Users, LDAPConfig,
+            OAuthConfig, OIDCConfig — grounded in the authn chart schema/CRDs and codebase.
+          tags: [krateo, authn, authentication, ldap, oidc, oauth]
+          examples:
+            - Set up basic authentication for a new user.
+            - Configure OIDC against our identity provider.
+            - Which auth methods does Krateo support and what CRs do they need?
+    deployment:
+      resources:
+{{- toYaml .Values.resources | nindent 8 }}

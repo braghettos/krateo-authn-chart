@@ -1,0 +1,24 @@
+apiVersion: v2
+name: krateo-authn-agent
+description: >-
+  Federated specialist agent for Krateo authn. A kagent Agent that manages authentication
+  (LDAP, OIDC, OAuth 2.0, basic auth) and is the dedicated expert on the authn component — it
+  knows the authn codebase (krateoplatformops/authn) and the chart that packages it
+  (krateo-authn-chart). Registered on the krateo-autopilot orchestrator via the extraAgents hook.
+type: application
+# Pinned literally (NOT CHART_VERSION): this agent chart shares the krateo-authn-chart repo, whose
+# git tag is the authn chart's version — so the agent versions independently. Bump here on change.
+version: 0.1.0
+appVersion: 0.1.0
+home: https://krateo.io
+icon: https://github.com/krateoplatformops/krateo/blob/main/docs/media/logo.svg
+keywords:
+  - krateo
+  - platformops
+  - kagent
+  - ai-agent
+  - authn
+# sources -> the codebase fork the agent is expert on, AND the chart that packages it.
+sources:
+  - https://github.com/braghettos/authn
+  - https://github.com/braghettos/krateo-authn-chart
