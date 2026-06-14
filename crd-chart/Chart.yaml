@@ -18,7 +18,6 @@ type: application
 # Pinned (NOT the CHART_VERSION tag): the authn CRDs (users/ldap/oauth/oidc)
 # version independently of the authn app chart. The installer pins authn-crd 0.22.2.
 version: 0.22.2
-appVersion: "0.22.2"
 home: https://krateo.io
 icon: https://github.com/krateoplatformops/krateo/blob/main/docs/media/logo.svg
 keywords:
