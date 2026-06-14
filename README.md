@@ -12,10 +12,10 @@ Part of the [krateo-installer](https://github.com/braghettos/krateo-installer) e
 | Path | Chart | OCI artifact | Versioning |
 |------|-------|--------------|-----------|
 | `chart/` | `authn` (appVersion 0.22.2) | `oci://ghcr.io/braghettos/krateo/authn` | tracks the git tag |
-| `crd-chart/` | `authn-crd` | `oci://ghcr.io/braghettos/krateo/authn-crd` | pinned `0.22.2` (independent of the app tag) |
+| `crds-subchart/` | `authn-crd` | `oci://ghcr.io/braghettos/krateo/authn-crd` | pinned `0.22.2` (independent of the app tag) |
 
 The authn CRDs (users/ldap/oauth/oidc) version independently of the authn app, so
-`crd-chart/Chart.yaml` carries a literal `version: 0.22.2` rather than the `CHART_VERSION`
+`crds-subchart/Chart.yaml` carries a literal `version: 0.22.2` rather than the `CHART_VERSION`
 placeholder — the release workflow leaves it untouched.
 
 ## How the installer consumes it
@@ -60,7 +60,7 @@ helm template smoke chart
 
 ## Release
 
-Push a semver tag (`X.Y.Z`) — CI packages `chart/` and `crd-chart/` and publishes both to
+Push a semver tag (`X.Y.Z`) — CI packages `chart/` and `crds-subchart/` and publishes both to
 `oci://ghcr.io/braghettos/krateo`.
 
 ## Links
