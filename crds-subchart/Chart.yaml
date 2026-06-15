@@ -17,7 +17,7 @@ type: application
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
 # Pinned (NOT the CHART_VERSION tag): the authn CRDs (users/ldap/oauth/oidc)
 # version independently of the authn app chart. The installer pins authn-crd 0.22.2.
-version: 0.22.3
+version: 0.22.4
 home: https://krateo.io
 icon: https://github.com/krateoplatformops/krateo/blob/main/docs/media/logo.svg
 keywords:
