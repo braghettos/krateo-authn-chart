@@ -10,7 +10,7 @@ spec:
   type: Declarative
   description: >-
     Manages Krateo authentication (LDAP, OIDC, OAuth 2.0, basic auth) and is the dedicated expert on
-    the authn component — it knows the authn codebase (braghettos/authn) and the chart that packages
+    the authn component — it knows the authn codebase (braghettos/krateo-authn) and the chart that packages
     it (braghettos/krateo-authn-chart), declared in this chart's sources.
   declarative:
     deployment:
@@ -38,7 +38,7 @@ spec:
             - k8s_apply_manifest
             - k8s_patch_resource
 {{- if .Values.github.enabled }}
-      # Reads the agent's component sources (braghettos/authn codebase + krateo-authn-chart)
+      # Reads the agent's component sources (braghettos/krateo-authn codebase + krateo-authn-chart)
       # so it can ground answers in the actual code and chart, per the /kagent standard.
       - type: McpServer
         mcpServer:
