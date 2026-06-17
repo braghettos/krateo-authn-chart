@@ -1,10 +1,10 @@
 apiVersion: kagent.dev/v1alpha2
 kind: Agent
 metadata:
-  name: authn-agent
+  name: krateo-authn-agent
   namespace: {{ .Values.namespace }}
   labels:
-    app.kubernetes.io/name: authn-agent
+    app.kubernetes.io/name: krateo-authn-agent
     app.kubernetes.io/part-of: krateo-authn
 spec:
   type: Declarative
