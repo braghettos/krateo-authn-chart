@@ -1,6 +1,8 @@
 apiVersion: v2
 name: krateo-authn
 description: Krateo PlatformOps AuthN Service
+annotations:
+  krateo.io/display-name: Authn
 
 # A chart can be either an 'application' or a 'library' chart.
 #
