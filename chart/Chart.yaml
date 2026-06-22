@@ -3,6 +3,9 @@ name: krateo-authn
 description: Krateo PlatformOps AuthN Service
 annotations:
   krateo.io/display-name: Authn
+  krateo.io/category: security
+  krateo.io/maturity: stable
+  krateoSupportedVersion: ">= 2.5.1"
 
 # A chart can be either an 'application' or a 'library' chart.
 #
@@ -26,12 +29,14 @@ version: CHART_VERSION
 # Pinned to the authn app version shipped with chart 0.22.2 (installer 2.7.0).
 appVersion: APP_VERSION
 home: https://krateo.io
-icon: https://github.com/krateoplatformops/krateo/blob/main/docs/media/logo.svg
+icon: https://raw.githubusercontent.com/krateoplatformops/krateo/main/docs/media/logo.svg
 keywords:
   - krateo
   - platformops
   - authn
   - authentication
+  - security
+  - identity
 # sources -> the braghettos fork of the authn codebase (hard rule).
 sources:
   - https://github.com/braghettos/authn
