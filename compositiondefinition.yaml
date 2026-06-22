@@ -4,9 +4,9 @@
 apiVersion: core.krateo.io/v1alpha1
 kind: CompositionDefinition
 metadata:
-  name: authn
+  name: krateo-authn
   namespace: krateo-system
 spec:
   chart:
-    url: oci://ghcr.io/braghettos/krateo/authn
-    version: "0.22.2"
+    url: oci://ghcr.io/braghettos/krateo/krateo-authn
+    version: "0.22.13"
