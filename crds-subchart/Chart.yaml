@@ -19,7 +19,7 @@ type: application
 # placeholder is substituted to the git tag by release-oci.yaml, so one chart-repo tag publishes
 # krateo-authn and krateo-authn-crd at the same version. The installer pins both at one version.
 # (Was independently pinned at 0.22.4.)
-version: 0.0.1
+version: CHART_VERSION
 home: https://krateo.io
 icon: https://github.com/krateoplatformops/krateo/blob/main/docs/media/logo.svg
 keywords:
